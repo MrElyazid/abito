@@ -1,0 +1,42 @@
+<div class="container mt-4">
+  <h1>Your Shopping Cart</h1>
+
+  <% if @cart_items.any? %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+          <th>Actions</th> <%# Add later for removing items %>
+        </tr>
+      </thead>
+      <tbody>
+        <% total_price = 0 %>
+        <% @cart_items.each do |item| %>
+          <% subtotal = item.product.price * item.quantity %>
+          <% total_price += subtotal %>
+          <tr>
+            <td><%= link_to item.product.name, product_path(item.product) %></td>
+            <td><%= number_to_currency(item.product.price) %></td>
+            <td><%= item.quantity %></td>
+            <td><%= number_to_currency(subtotal) %></td>
+            <td>
+              <%# Add remove/update quantity buttons later %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="text-end">
+      <h3>Total: <%= number_to_currency(total_price) %></h3>
+      <%# Add Checkout button later %>
+      <%= link_to "Checkout", "#", class: "btn btn-success disabled", title: "Checkout functionality not yet implemented" %>
+    </div>
+  <% else %>
+    <p>Your cart is empty.</p>
+    <%= link_to "Continue Shopping", products_path, class: "btn btn-primary" %>
+  <% end %>
+</div>
