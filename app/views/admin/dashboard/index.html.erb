@@ -1,0 +1,37 @@
+<h1>Admin Dashboard</h1>
+<hr>
+
+<h2>Site Statistics</h2>
+<div class="row">
+  <div class="col-md-4">
+    <div class="card text-white bg-primary mb-3">
+      <div class="card-header">Products</div>
+      <div class="card-body">
+        <h5 class="card-title"><%= @product_count %></h5>
+        <p class="card-text">Total products in the store.</p>
+        <%= link_to "Manage Products", admin_products_path, class: "btn btn-light btn-sm" %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-success mb-3">
+      <div class="card-header">Categories</div>
+      <div class="card-body">
+        <h5 class="card-title"><%= @category_count %></h5>
+        <p class="card-text">Total product categories.</p>
+        <%# Add link to manage categories later if needed %>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-info mb-3">
+      <div class="card-header">Users</div>
+      <div class="card-body">
+        <h5 class="card-title"><%= @user_count %></h5>
+        <p class="card-text">Total registered users.</p>
+         <%# Add link to manage users later if needed %>
+      </div>
+    </div>
+  </div>
+  <%# Add Orders card later %>
+</div>

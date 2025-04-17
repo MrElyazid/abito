@@ -41,6 +41,12 @@ This is a simple e-commerce website built with Ruby on Rails 8 for educational p
 *   **Styling & Layout:**
     *   Uses Bootstrap 5 for basic styling and layout (cards, grid, navbar).
     *   A standard application layout (`application.html.erb`) includes a navigation bar and flash message display.
+*   **Admin Dashboard & Product Management:**
+    *   Admin section accessible at `/admin` (requires login as an admin user, e.g., `admin@example.com`).
+    *   Uses a separate layout (`admin.html.erb`) with a dark theme.
+    *   Admin dashboard displays basic site statistics (product, category, user counts).
+    *   Full CRUD (Create, Read, Update, Delete) functionality for products within the admin section (`/admin/products`).
+    *   **Image Uploads:** Uses Active Storage (`has_one_attached :image` on `Product`) to allow uploading a single image per product via the admin form. Public views display the attached image if present, otherwise show a placeholder.
 
 ## How to Run
 
@@ -72,10 +78,10 @@ This is a simple e-commerce website built with Ruby on Rails 8 for educational p
 
 ## Next Steps / Not Implemented
 
-*   Admin panel for managing products, categories, users, and orders.
+*   Admin management for Categories, Users, and Orders.
+*   Displaying Orders and statistics on the Admin Dashboard.
 *   Cart item removal/quantity update.
 *   Checkout process (creating orders from carts).
 *   Order history view for users.
-*   Actual product image uploads (using Active Storage).
 *   More robust styling.
 *   Testing.

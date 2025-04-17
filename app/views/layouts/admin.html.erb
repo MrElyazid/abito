@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin - <%= content_for(:title) || "Abito" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <%# Dark theme for admin %>
+      <div class="container-fluid">
+        <%= link_to "Abito Admin", admin_root_path, class: "navbar-brand" %> <%# Link to admin root later %>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbarNav" aria-controls="adminNavbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="adminNavbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <%# Add Admin specific links here later - e.g., Products, Orders, Users %>
+            <li class="nav-item">
+              <%= link_to "Dashboard", admin_root_path, class: "nav-link" %> <%# Link to admin root later %>
+            </li>
+             <li class="nav-item">
+              <%= link_to "Products", admin_products_path, class: "nav-link" %> <%# Link to admin products later %>
+            </li>
+             <%# Add Orders link later %>
+             <%# Add Users link later %>
+          </ul>
+          <ul class="navbar-nav">
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <span class="navbar-text text-light me-3"> <%# Light text for dark navbar %>
+                  Admin: <%= current_user.email %>
+                </span>
+              </li>
+              <li class="nav-item">
+                <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" %> <%# Light outline %>
+              </li>
+            <% end %>
+            <%# No need for Sign Up/Log In links here %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-3">
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+      <%= yield %>
+    </div>
+  </body>
+</html>

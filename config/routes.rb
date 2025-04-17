@@ -5,6 +5,14 @@ Rails.application.routes.draw do
     resources :cart_items, only: [:create]
   end
   devise_for :users
+
+  # Admin Section
+  namespace :admin do
+    root "dashboard#index" # sets admin_root_path
+    resources :products # Covers index, new, create, edit, update, destroy, show
+    # Add routes for statistics later
+  end
+
   root "home#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

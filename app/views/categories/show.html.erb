@@ -6,11 +6,15 @@
   <% if @products.any? %>
     <div class="row">
       <% @products.each do |product| %>
-        <div class="col-md-4 mb-4">
-          <div class="card h-100"> <%# Use h-100 for consistent card height %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100"> <%# Use h-100 for consistent card height %>
+          <% if product.image.attached? %>
+            <%= image_tag product.image.variant(resize_to_limit: [300, 200]), class: "card-img-top", alt: product.name %>
+          <% else %>
             <img src="https://picsum.photos/seed/<%= product.id %>/300/200" class="card-img-top" alt="<%= product.name %> placeholder">
-            <div class="card-body d-flex flex-column"> <%# Use flexbox for footer alignment %>
-              <h5 class="card-title"><%= link_to product.name, product_path(product) %></h5>
+          <% end %>
+          <div class="card-body d-flex flex-column"> <%# Use flexbox for footer alignment %>
+            <h5 class="card-title"><%= link_to product.name, product_path(product) %></h5>
               <p class="card-text flex-grow-1"><%= truncate(product.description, length: 80) %></p> <%# flex-grow-1 pushes footer down %>
               <div class="mt-auto"> <%# Footer div %>
                 <p class="card-text"><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
