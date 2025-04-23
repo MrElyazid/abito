@@ -47,6 +47,9 @@ This is a simple e-commerce website built with Ruby on Rails 8 for educational p
     *   Admin dashboard displays basic site statistics (product, category, user counts).
     *   Full CRUD (Create, Read, Update, Delete) functionality for products within the admin section (`/admin/products`).
     *   **Image Uploads:** Uses Active Storage (`has_one_attached :image` on `Product`) to allow uploading a single image per product via the admin form. Public views display the attached image if present, otherwise show a placeholder.
+*   **Home Page:**
+    *   Enhanced client home page (`/`) with a welcome banner and a "Featured Products" section (displaying the 3 most recently added products).
+    *   Admin users visiting the root path (`/`) are automatically redirected to the admin dashboard (`/admin`).
 
 ## How to Run
 
