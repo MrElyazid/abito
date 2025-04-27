@@ -4,13 +4,16 @@ Rails.application.routes.draw do
   resources :products, only: [:index, :show] do
     resources :cart_items, only: [:create]
   end
+  resources :orders, only: [:create, :index, :show] # Routes for checkout and user order history
   devise_for :users
 
   # Admin Section
   namespace :admin do
-    root "dashboard#index" # sets admin_root_path
-    resources :products # Covers index, new, create, edit, update, destroy, show
-    # Add routes for statistics later
+    root to: 'dashboard#index' # /admin
+    resources :products # Full CRUD for products under /admin/products
+    resources :categories # Add routes for admin category management
+    resources :users, only: [:index, :show, :destroy] # Add routes for admin user management
+    resources :orders, only: [:index, :show] # Add routes for admin order viewing
   end
 
   root "home#index"

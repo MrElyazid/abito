@@ -15,7 +15,7 @@ This is a simple e-commerce website built with Ruby on Rails 8 for educational p
 *   **User Authentication:**
     *   Implemented using the `devise` gem.
     *   Users can sign up (`/users/sign_up`), log in (`/users/sign_in`), and log out.
-    *   A boolean `admin` flag exists on the `User` model (default `false`), distinguishing regular users from administrators (admin functionality not yet implemented).
+    *   A boolean `admin` flag exists on the `User` model (default `false`)
 *   **Core Models & Database:**
     *   **User:** Manages user accounts (via Devise), has `admin` flag, `has_one :cart`, `has_many :orders`.
     *   **Category:** Has a `name` (string), `has_many :products`.
@@ -40,15 +40,27 @@ This is a simple e-commerce website built with Ruby on Rails 8 for educational p
     *   A navigation link to the cart (showing item count) appears for logged-in users.
 *   **Styling & Layout:**
     *   Uses Bootstrap 5 for basic styling and layout (cards, grid, navbar).
-    *   A standard application layout (`application.html.erb`) includes a navigation bar and flash message display.
-*   **Admin Dashboard & Product Management:**
-    *   Admin section accessible at `/admin` (requires login as an admin user, e.g., `admin@example.com`).
-    *   Uses a separate layout (`admin.html.erb`) with a dark theme.
-    *   Admin dashboard displays basic site statistics (product, category, user counts).
-    *   Full CRUD (Create, Read, Update, Delete) functionality for products within the admin section (`/admin/products`).
-    *   **Image Uploads:** Uses Active Storage (`has_one_attached :image` on `Product`) to allow uploading a single image per product via the admin form. Public views display the attached image if present, otherwise show a placeholder.
+    *   A standard application layout (`application.html.erb`) includes a navigation bar (with Cart and Order History links for logged-in users) and flash message display.
+*   **Admin Section (`/admin`):**
+    *   Requires login as an admin user (e.g., `admin@example.com`).
+    *   Uses a separate layout (`admin.html.erb`) with a dark theme and dedicated navigation.
+    *   **Dashboard:** Displays site statistics (Product, Category, User, Order counts) with links to management sections.
+    *   **Product Management:** Full CRUD functionality for products (`/admin/products`), including image uploads via Active Storage (`has_one_attached :image`).
+    *   **Category Management:** Full CRUD functionality for categories (`/admin/categories`).
+    *   **User Management:** View list of users and delete non-admin users (`/admin/users`).
+    *   **Order Management:** View list of all orders and order details (`/admin/orders`).
+*   **Checkout Process:**
+    *   Users can click "Checkout" in their cart (`/cart`).
+    *   This triggers the creation of an `Order` record with associated `OrderItems` based on the cart contents.
+    *   The price at the time of purchase is stored in `OrderItems`.
+    *   A basic stock check is performed.
+    *   The user's cart is cleared upon successful order creation.
+    *   The user is redirected with a success message.
+*   **User Order History:**
+    *   Logged-in users can view their past orders at `/orders`.
+    *   Users can view the details of a specific order at `/orders/:id`.
 *   **Home Page:**
-    *   Enhanced client home page (`/`) with a welcome banner and a "Featured Products" section (displaying the 3 most recently added products).
+    *   Client home page (`/`) with a welcome banner and a "Featured Products" section (displaying the 3 most recently added products).
     *   Admin users visiting the root path (`/`) are automatically redirected to the admin dashboard (`/admin`).
 
 ## How to Run
@@ -78,13 +90,3 @@ This is a simple e-commerce website built with Ruby on Rails 8 for educational p
     # bin/dev
     ```
 6.  **Access the application:** Open your web browser and navigate to `http://localhost:3000`.
-
-## Next Steps / Not Implemented
-
-*   Admin management for Categories, Users, and Orders.
-*   Displaying Orders and statistics on the Admin Dashboard.
-*   Cart item removal/quantity update.
-*   Checkout process (creating orders from carts).
-*   Order history view for users.
-*   More robust styling.
-*   Testing.

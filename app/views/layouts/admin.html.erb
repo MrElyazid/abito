@@ -30,10 +30,17 @@
               <%= link_to "Dashboard", admin_root_path, class: "nav-link" %> <%# Link to admin root later %>
             </li>
              <li class="nav-item">
-              <%= link_to "Products", admin_products_path, class: "nav-link" %> <%# Link to admin products later %>
+              <%= link_to "Products", admin_products_path, class: "nav-link #{'active' if controller_name == 'products'}" %>
             </li>
-             <%# Add Orders link later %>
-             <%# Add Users link later %>
+            <li class="nav-item">
+              <%= link_to "Categories", admin_categories_path, class: "nav-link #{'active' if controller_name == 'categories'}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Users", admin_users_path, class: "nav-link #{'active' if controller_name == 'users'}" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Orders", admin_orders_path, class: "nav-link #{'active' if controller_name == 'orders'}" %>
+            </li>
           </ul>
           <ul class="navbar-nav">
             <% if user_signed_in? %>

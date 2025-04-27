@@ -58,6 +58,9 @@
                 </span>
               </li>
               <li class="nav-item">
+                <%= link_to "Order History", orders_path, class: "nav-link #{'active' if controller_name == 'orders'}" %>
+              </li>
+              <li class="nav-item">
                 <%# Use button_to for DELETE requests with Turbo %>
                 <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger btn-sm" %>
               </li>

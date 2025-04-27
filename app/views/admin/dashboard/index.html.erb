@@ -19,7 +19,7 @@
       <div class="card-body">
         <h5 class="card-title"><%= @category_count %></h5>
         <p class="card-text">Total product categories.</p>
-        <%# Add link to manage categories later if needed %>
+        <%= link_to "Manage Categories", admin_categories_path, class: "btn btn-light btn-sm" %>
       </div>
     </div>
   </div>
@@ -29,9 +29,18 @@
       <div class="card-body">
         <h5 class="card-title"><%= @user_count %></h5>
         <p class="card-text">Total registered users.</p>
-         <%# Add link to manage users later if needed %>
+        <%= link_to "Manage Users", admin_users_path, class: "btn btn-light btn-sm" %>
       </div>
     </div>
   </div>
-  <%# Add Orders card later %>
+  <div class="col-md-4">
+    <div class="card text-white bg-warning mb-3"> <%# Changed color for variety %>
+      <div class="card-header">Orders</div>
+      <div class="card-body">
+        <h5 class="card-title"><%= @order_count %></h5>
+        <p class="card-text">Total orders placed.</p>
+        <%= link_to "View Orders", admin_orders_path, class: "btn btn-light btn-sm" %>
+      </div>
+    </div>
+  </div>
 </div>

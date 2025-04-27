@@ -64,9 +64,16 @@ end
 *   `resources :cart_items, only: [:create]`: Nested within `products`, this creates the route `POST /products/:product_id/cart_items` mapped to `cart_items#create`. This makes sense because you add a specific product *to* the cart.
 *   `resources :categories, only: [:show]`: Creates the route `GET /categories/:id` for viewing products by category.
 *   `resource :cart, only: [:show]`: Uses `resource` (singular) because a user typically only has *one* cart. This creates `GET /cart` mapped to `carts#show`.
+*   `resources :orders, only: [:create, :index, :show]`: Creates routes for the user-facing order actions:
+    *   `POST /orders` -> `orders#create` (Checkout process)
+    *   `GET /orders` -> `orders#index` (User's order history)
+    *   `GET /orders/:id` -> `orders#show` (Details of a specific user order)
 *   `namespace :admin do ... end`: Groups all admin-related routes under the `/admin` path and expects controllers to be in the `Admin` module (e.g., `Admin::ProductsController`).
     *   `root to: 'dashboard#index'`: Maps `/admin` to `Admin::DashboardController#index`.
-    *   `resources :products`: Creates the full set of RESTful routes for managing products within the admin section (e.g., `GET /admin/products`, `POST /admin/products`, `GET /admin/products/:id/edit`, etc.).
+    *   `resources :products`: Full CRUD routes for admin product management (`/admin/products`).
+    *   `resources :categories`: Full CRUD routes for admin category management (`/admin/categories`).
+    *   `resources :users, only: [:index, :show, :destroy]`: Routes for admin user management (`/admin/users`).
+    *   `resources :orders, only: [:index, :show]`: Routes for admin viewing of all orders (`/admin/orders`).
 
 **How to Check Routes:**
 

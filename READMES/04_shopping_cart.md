@@ -45,8 +45,13 @@ The shopping cart allows logged-in users to temporarily store products they inte
     *   Displays the `cart_item.quantity`.
     *   Calculates and displays sub-totals (price * quantity) for each item.
     *   Calculates and displays the overall cart total.
+    *   Includes a "Checkout" button.
     *   (Currently missing: Functionality to remove items or update quantities directly from the cart view).
 
 **Workflow Summary (Add to Cart):**
 
 User clicks button -> POST to `CartItemsController#create` -> Controller finds/creates Cart -> Finds Product -> Finds/builds CartItem -> Increments quantity or sets to 1 -> Saves CartItem -> Redirects to `CartsController#show` -> Controller finds Cart and items -> Renders `carts/show.html.erb` -> User sees updated cart.
+
+**Checkout Workflow:**
+
+User clicks "Checkout" button -> POST to `OrdersController#create` -> Controller finds Cart -> Starts Transaction -> Builds Order & OrderItems (copying price, checking stock) -> Calculates total -> Saves Order -> Clears Cart -> Redirects User (e.g., to home page) with success message.
