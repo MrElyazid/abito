@@ -56,9 +56,9 @@ This is a simple e-commerce website built with Ruby on Rails 8 for educational p
 1.  **Prerequisites:**
     *   Ruby (check `.ruby-version` for required version)
     *   Bundler (`gem install bundler`)
-    *   Node.js and Yarn (for asset bundling)
+    *   Node.js and Yarn (for asset bundling) install yarn via `npm install --global yarn`
     *   SQLite3
-2.  **Clone the repository (if applicable).**
+2.  **Clone the repository or just download its zip**
 3.  **Install dependencies:**
     ```bash
     bundle install
@@ -79,12 +79,3 @@ This is a simple e-commerce website built with Ruby on Rails 8 for educational p
     ```
 6.  **Access the application:** Open your web browser and navigate to `http://localhost:3000`.
 
-## Next Steps / Not Implemented
-
-*   Admin management for Categories, Users, and Orders.
-*   Displaying Orders and statistics on the Admin Dashboard.
-*   Cart item removal/quantity update.
-*   Checkout process (creating orders from carts).
-*   Order history view for users.
-*   More robust styling.
-*   Testing.
