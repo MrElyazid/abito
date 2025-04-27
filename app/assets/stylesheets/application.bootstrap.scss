@@ -1,3 +1,29 @@
 // Use the modern @use rule instead of @import
 @use 'bootstrap/scss/bootstrap';
 @use 'bootstrap-icons/font/bootstrap-icons';
+
+/* Custom Product Card Styles */
+.card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+  /* Ensure images cover the area without distortion, might need height adjustments */
+  object-fit: cover;
+  /* You might want to set a fixed height for consistency if images vary a lot */
+  /* height: 200px; */
+}
+
+/* Optional: Refine button styles within cards */
+/*
+.card .btn-primary {
+  // Example: Use outline style
+  // @extend .btn-outline-primary;
+}
+*/

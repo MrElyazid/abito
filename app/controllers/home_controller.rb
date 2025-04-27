@@ -8,5 +8,6 @@ class HomeController < ApplicationController
 
     # Fetch data for the client home page
     @featured_products = Product.includes(:image_attachment => :blob).order(created_at: :desc).limit(3)
+    @categories_for_home = Category.limit(4) # Fetch categories for the new section
   end
 end

@@ -40,9 +40,12 @@ Rails.application.routes.draw do
   # Public facing resources
   resources :products, only: [:index, :show] do
     resources :cart_items, only: [:create] # Nested: POST /products/:product_id/cart_items
+    resources :comments, only: [:create]   # Nested: POST /products/:product_id/comments
   end
   resources :categories, only: [:show]
-  resource :cart, only: [:show] # Singular resource for the current user's cart
+  resource :cart, only: [:show] do # Singular resource for the current user's cart
+    resources :cart_items, only: [:update, :destroy] # Nested: PATCH/DELETE /cart/cart_items/:id
+  end
 
   # Admin section
   namespace :admin do
@@ -60,10 +63,12 @@ end
 *   `devise_for :users`: Sets up all the necessary routes for user sign-up, login, logout, password recovery, etc., provided by the Devise gem.
 *   `authenticated :user, ->(user) { user.admin? } do ... end`: Defines a special root path (`/admin`) for users who are logged in *and* are admins.
 *   `root to: 'home#index'`: Sets the default root path (`/`) for non-admin users (or logged-out users) to the `index` action of the `HomeController`.
-*   `resources :products, only: [:index, :show]`: Creates the public routes for viewing all products (`/products`) and a single product (`/products/:id`).
-*   `resources :cart_items, only: [:create]`: Nested within `products`, this creates the route `POST /products/:product_id/cart_items` mapped to `cart_items#create`. This makes sense because you add a specific product *to* the cart.
+*   `resources :products, only: [:index, :show] do ... end`: Creates the public routes for viewing all products (`/products`) and a single product (`/products/:id`). It also nests routes within it:
+    *   `resources :cart_items, only: [:create]`: Creates `POST /products/:product_id/cart_items` mapped to `cart_items#create`.
+    *   `resources :comments, only: [:create]`: Creates `POST /products/:product_id/comments` mapped to `comments#create`.
 *   `resources :categories, only: [:show]`: Creates the route `GET /categories/:id` for viewing products by category.
-*   `resource :cart, only: [:show]`: Uses `resource` (singular) because a user typically only has *one* cart. This creates `GET /cart` mapped to `carts#show`.
+*   `resource :cart, only: [:show] do ... end`: Uses `resource` (singular) because a user typically only has *one* cart. This creates `GET /cart` mapped to `carts#show`. It also nests routes for managing items within that specific cart:
+    *   `resources :cart_items, only: [:update, :destroy]`: Creates `PATCH /cart/cart_items/:id` mapped to `cart_items#update` and `DELETE /cart/cart_items/:id` mapped to `cart_items#destroy`.
 *   `resources :orders, only: [:create, :index, :show]`: Creates routes for the user-facing order actions:
     *   `POST /orders` -> `orders#create` (Checkout process)
     *   `GET /orders` -> `orders#index` (User's order history)

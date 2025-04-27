@@ -9,7 +9,7 @@ The shopping cart allows logged-in users to temporarily store products they inte
     *   `belongs_to :user`: Each cart belongs to a specific user.
     *   `has_many :cart_items, dependent: :destroy`: A cart contains multiple line items. If a cart is deleted, its associated items are also deleted.
     *   `has_many :products, through: :cart_items`: Provides a convenient way to access the products directly within a cart via the `cart_items` join table.
-    *   **Implicit Creation:** The application seems to rely on finding or creating the cart when needed (e.g., `current_user.cart || current_user.create_cart`). A user doesn't explicitly create a cart; it's often generated the first time they add an item.
+    *   **Implicit Creation:** The application relies on finding or creating the cart when needed (e.g., `current_user.cart || current_user.create_cart` in `ApplicationController`). A user doesn't explicitly create a cart; it's generated the first time they add an item.
 
 2.  **`CartItem` Model (`app/models/cart_item.rb`):**
     *   Represents a specific product within a specific cart, including the quantity. This is a "join model".
@@ -19,34 +19,29 @@ The shopping cart allows logged-in users to temporarily store products they inte
     *   `dependent: :destroy` on the `Cart` model's `has_many :cart_items` ensures that if a `Cart` is destroyed, its associated `CartItem` records are also automatically deleted.
 
 3.  **`CartItemsController` (`app/controllers/cart_items_controller.rb`):**
-    *   Handles the logic for adding items to the cart.
-    *   **`create` Action:** This is the primary action used. It's triggered by a `POST` request, typically from an "Add to Cart" button.
-        *   **Requires Login:** It likely uses `before_action :authenticate_user!` to ensure only logged-in users can add items.
-        *   **Finds User's Cart:** Gets the `current_user` and finds/creates their associated `Cart` (`@cart = current_user.cart || current_user.create_cart`).
-        *   **Finds Product:** Finds the `Product` based on `params[:product_id]` (passed via the nested route).
-        *   **Checks for Existing Item:** Looks for an existing `CartItem` in the `@cart` for the specific `@product` (`@cart_item = @cart.cart_items.find_by(product_id: @product.id)`).
-        *   **Updates or Creates:**
-            *   If `@cart_item` exists, it increments the `quantity` (`@cart_item.increment!(:quantity)`).
-            *   If `@cart_item` is `nil`, it creates a new `CartItem` associated with the `@cart` and `@product`, setting the initial `quantity` to 1 (`@cart_item = @cart.cart_items.build(product: @product)`).
-        *   **Saves:** Saves the `@cart_item` (either the updated existing one or the new one).
-        *   **Redirects:** Redirects the user to the cart page (`cart_path`) with a success notice.
+    *   Handles the logic for adding, updating, and removing items from the cart.
+    *   Uses `before_action :authenticate_user!` for all actions.
+    *   Uses `before_action :set_cart_item` (which finds the item within the `current_cart`) for `update` and `destroy`.
+    *   **`create` Action:** Triggered by `POST /products/:product_id/cart_items`. Finds or initializes the `CartItem` for the given product in the user's cart and increments the quantity (or sets it to 1). Redirects to `cart_path`.
+    *   **`update` Action:** Triggered by `PATCH /cart/cart_items/:id`. Decreases the quantity of the specified `CartItem` by 1. If the quantity becomes 0, the item is destroyed. Redirects to `cart_path`.
+    *   **`destroy` Action:** Triggered by `DELETE /cart/cart_items/:id`. Destroys the specified `CartItem`. Redirects to `cart_path`.
 
 4.  **`CartsController` (`app/controllers/carts_controller.rb`):**
     *   Handles displaying the cart.
     *   **`show` Action:**
         *   **Requires Login:** Uses `before_action :authenticate_user!`.
-        *   **Finds Cart:** Gets the `current_user`'s cart (`@cart = current_user.cart`). It might also include preloading associated items for efficiency (`@cart = current_user.cart.includes(cart_items: :product)`).
-        *   **Renders View:** Renders the `app/views/carts/show.html.erb` template, passing the `@cart` object to it.
+        *   **Finds Cart:** Gets the `current_user`'s cart (`@cart = current_cart`). Includes preloading associated items and products for efficiency (`@cart_items = @cart.cart_items.includes(:product)`).
+        *   **Renders View:** Renders the `app/views/carts/show.html.erb` template, passing the `@cart` and `@cart_items` objects to it.
 
 5.  **Cart View (`app/views/carts/show.html.erb`):**
-    *   Receives the `@cart` object from the `CartsController`.
-    *   Iterates through `@cart.cart_items` to display each product in the cart.
+    *   Receives the `@cart` and `@cart_items` objects from the `CartsController`.
+    *   Iterates through `@cart_items` to display each product in the cart.
     *   For each `cart_item`, it can access the associated `product` details (e.g., `cart_item.product.name`, `cart_item.product.price`).
     *   Displays the `cart_item.quantity`.
     *   Calculates and displays sub-totals (price * quantity) for each item.
     *   Calculates and displays the overall cart total.
     *   Includes a "Checkout" button.
-    *   (Currently missing: Functionality to remove items or update quantities directly from the cart view).
+    *   Includes "Decrease Quantity" (`-`) and "Remove" buttons for each item, linked to the `update` and `destroy` actions in `CartItemsController`.
 
 **Workflow Summary (Add to Cart):**
 
