@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resource :cart, only: [:show]
+  resource :cart, only: [:show] do
+    resources :cart_items, only: [:update, :destroy] # Routes for updating/removing items in cart
+  end
   resources :categories, only: [:show]
   resources :products, only: [:index, :show] do
     resources :cart_items, only: [:create]

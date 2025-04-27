@@ -22,8 +22,9 @@
             <td><%= number_to_currency(item.product.price) %></td>
             <td><%= item.quantity %></td>
             <td><%= number_to_currency(subtotal) %></td>
-            <td>
-              <%# Add remove/update quantity buttons later %>
+            <td class="d-flex gap-2">
+              <%= button_to "-", cart_cart_item_path(item), method: :patch, class: "btn btn-sm btn-warning", title: "Decrease Quantity" %>
+              <%= button_to "Remove", cart_cart_item_path(item), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Are you sure you want to remove this item?" }, title: "Remove Item" %>
             </td>
           </tr>
         <% end %>
