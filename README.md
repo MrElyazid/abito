@@ -53,6 +53,19 @@ This is a simple e-commerce website built with Ruby on Rails 8 for educational p
 
 ## How to Run
 
+### you might want to do : 
+
+changes in the gemfile :
+gem "rails", "~> 7.1.5", ">= 7.1.5.1" ( or the version you have )
+ruby "3.4.1" ( or the version you have )
+
+changes in : config/application.rb : 
+config.load_defaults 7.1 ( or the version of rails you have isntead of 7.1) 
+
+changes in applicationcontroller : 
+remove this line :   allow_browser versions: :modern
+
+
 1.  **Prerequisites:**
     *   Ruby (check `.ruby-version` for required version)
     *   Bundler (`gem install bundler`)
