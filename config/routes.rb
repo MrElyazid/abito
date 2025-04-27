@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :categories, only: [:show]
   resources :products, only: [:index, :show] do
     resources :cart_items, only: [:create]
+    resources :comments, only: [:create] # Nested route for creating comments
   end
   resources :orders, only: [:create, :index, :show] # Routes for checkout and user order history
   devise_for :users

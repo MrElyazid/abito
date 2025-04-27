@@ -11,6 +11,9 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @product = Product.find(params[:id])
+    # Eager load category, comments, and comment users
+    @product = Product.includes(:category, comments: :user).find(params[:id])
+    # Prepare a new comment object for the form (if user is logged in)
+    @comment = Comment.new if user_signed_in?
   end
 end

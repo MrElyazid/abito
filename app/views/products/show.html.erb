@@ -22,4 +22,47 @@
       <%= link_to "Back to Products", products_path, class: "btn btn-secondary" %>
     </div>
   </div>
+
+  <hr class="my-4">
+
+  <%# Comments Section %>
+  <div class="row mt-4">
+    <div class="col-md-8 offset-md-2">
+      <h3>Comments</h3>
+
+      <%# Comment Form (for logged-in users) %>
+      <% if user_signed_in? %>
+        <%= form_with model: [@product, @comment], local: true do |form| %>
+          <div class="mb-3">
+            <%= form.label :body, "Add your comment:", class: "form-label" %>
+            <%= form.text_area :body, rows: 3, class: "form-control", required: true %>
+          </div>
+          <%= form.submit "Post Comment", class: "btn btn-primary" %>
+        <% end %>
+        <hr>
+      <% else %>
+        <p><%= link_to "Log in", new_user_session_path %> to leave a comment.</p>
+      <% end %>
+
+      <%# Display Existing Comments %>
+      <div class="mt-4" id="comments-list">
+        <% if @product.comments.any? %>
+          <% @product.comments.order(created_at: :desc).each do |comment| %>
+            <div class="card mb-3">
+              <div class="card-body">
+                <p class="card-text"><%= comment.body %></p>
+                <p class="card-text">
+                  <small class="text-muted">
+                    By <%= comment.user.email %> on <%= comment.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+                  </small>
+                </p>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <p>No comments yet. Be the first to comment!</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
