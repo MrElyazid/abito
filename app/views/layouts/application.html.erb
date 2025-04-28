@@ -44,6 +44,11 @@
                 <% end %>
               </ul>
             </li>
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to "Submit Product", new_product_path, class: "nav-link" %>
+              </li>
+            <% end %>
             <% if user_signed_in? && current_cart %>
               <li class="nav-item">
                 <%= link_to "Cart (#{current_cart.cart_items.sum(:quantity)})", cart_path, class: "nav-link" %>
@@ -77,7 +82,7 @@
       </div>
     </nav>
 
-    <div class="container mt-3"> <%# Add container for flash messages and yield %>
+    <div class="container mt-3"> 
       <p class="notice"><%= notice %></p>
       <p class="alert"><%= alert %></p>
       <%= yield %>

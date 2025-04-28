@@ -1,0 +1,28 @@
+<div class="container mt-4">
+  <h1 class="mb-4">Pending Product Submissions</h1>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Submitted By</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @pending_products.each do |product| %>
+        <tr>
+          <td><%= product.name %></td>
+          <td><%= product.submitted_by.email %></td>
+          <td><%= product.category.name %></td>
+          <td>
+            <%= link_to "View", admin_product_path(product), class: "btn btn-sm btn-info" %>
+            <%= link_to "Accept", accept_submission_admin_product_path(product), data: { turbo_method: :patch }, class: "btn btn-sm btn-success" %>
+            <%= link_to "Reject", reject_submission_admin_product_path(product), data: { turbo_method: :patch }, class: "btn btn-sm btn-danger" %> 
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

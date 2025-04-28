@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :cart_items, only: [:update, :destroy] # Routes for updating/removing items in cart
   end
   resources :categories, only: [:show]
-  resources :products, only: [:index, :show] do
+  resources :products, only: [:index, :show, :new, :create] do
     resources :cart_items, only: [:create]
     resources :comments, only: [:create] # Nested route for creating comments
   end
@@ -13,7 +13,15 @@ Rails.application.routes.draw do
   # Admin Section
   namespace :admin do
     root to: 'dashboard#index' # /admin
-    resources :products # Full CRUD for products under /admin/products
+    resources :products do 
+      collection do 
+        get :pending_submissions
+      end
+      member do
+        patch :accept_submission
+        patch :reject_submission
+      end
+    end# Full CRUD for products under /admin/products
     resources :categories # Add routes for admin category management
     resources :users, only: [:index, :show, :destroy] # Add routes for admin user management
     resources :orders, only: [:index, :show] # Add routes for admin order viewing

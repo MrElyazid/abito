@@ -1,0 +1,9 @@
+<h1>Product Details</h1>
+
+<p><strong>Name:</strong> <%= @product.name %></p>
+<p><strong>Description:</strong> <%= @product.description %></p>
+<p><strong>Price:</strong> <%= @product.price %></p>
+<p><strong>Stock Quantity:</strong> <%= @product.stock_quantity %></p>
+<p><strong>Category:</strong> <%= @product.category.name %></p>
+<p><strong>Image:</strong></p>
+<%= image_tag @product.image.variant(resize_to_limit: [300, 200]) if @product.image.attached? %>

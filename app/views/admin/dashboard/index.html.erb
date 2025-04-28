@@ -10,6 +10,7 @@
         <h5 class="card-title"><%= @product_count %></h5>
         <p class="card-text">Total products in the store.</p>
         <%= link_to "Manage Products", admin_products_path, class: "btn btn-light btn-sm" %>
+        <%= link_to "Pending Submissions", pending_submissions_admin_products_path, class: "btn btn-light btn-sm" %>
       </div>
     </div>
   </div>
@@ -34,7 +35,7 @@
     </div>
   </div>
   <div class="col-md-4">
-    <div class="card text-white bg-warning mb-3"> <%# Changed color for variety %>
+    <div class="card text-white bg-warning mb-3"> 
       <div class="card-header">Orders</div>
       <div class="card-body">
         <h5 class="card-title"><%= @order_count %></h5>
