@@ -23,20 +23,27 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <%# Updated navbar with logo and custom class %>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light custom-navbar"> <%# Added custom-navbar class %>
       <div class="container-fluid">
-        <%= link_to "Abito", root_path, class: "navbar-brand" %>
+        <%= link_to root_path, class: "navbar-brand" do %>
+          <%= image_tag("Abito-logo.jpg", alt: "Abito Logo", height: "40") %> <%# Use image_tag for the logo %>
+        <% end %>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <%= link_to "Products", products_path, class: "nav-link" %>
+              <%# Added icon to Products link %>
+              <%= link_to products_path, class: "nav-link" do %>
+                <i class="bi bi-box-seam me-1"></i> Products
+              <% end %>
             </li>
             <li class="nav-item dropdown">
+              <%# Added icon to Categories dropdown toggle %>
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCategories" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Categories
+                <i class="bi bi-tags me-1"></i> Categories
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownCategories">
                 <% Category.all.each do |category| %>
@@ -46,35 +53,60 @@
             </li>
             <% if user_signed_in? %>
               <li class="nav-item">
-                <%= link_to "Submit Product", new_product_path, class: "nav-link" %>
+                <%# Added icon to Submit Product link %>
+                <%= link_to new_product_path, class: "nav-link" do %>
+                  <i class="bi bi-plus-circle me-1"></i> Submit Product
+                <% end %>
               </li>
             <% end %>
             <% if user_signed_in? && current_cart %>
               <li class="nav-item">
-                <%= link_to "Cart (#{current_cart.cart_items.sum(:quantity)})", cart_path, class: "nav-link" %>
+                <%# Added icon to Cart link %>
+                <%= link_to cart_path, class: "nav-link" do %>
+                  <i class="bi bi-cart me-1"></i> Cart (<%= current_cart.cart_items.sum(:quantity) %>)
+                <% end %>
               </li>
             <% end %>
           </ul>
           <ul class="navbar-nav">
+            <%# Dark Mode Toggle Button %>
+            <li class="nav-item me-2"> <%# Added me-2 for spacing %>
+              <button id="darkModeToggle" class="btn btn-outline-secondary btn-sm" type="button" aria-label="Toggle dark mode">
+                <i class="bi bi-moon-stars-fill"></i> <%# Moon icon initially %>
+              </button>
+            </li>
+
             <% if user_signed_in? %>
               <li class="nav-item">
                 <span class="navbar-text me-3">
-                  Logged in as: <%= current_user.email %>
+                  <%# Added icon to user email display %>
+                  <i class="bi bi-person-circle me-1"></i> Logged in as: <%= current_user.email %>
                 </span>
               </li>
               <li class="nav-item">
-                <%= link_to "Order History", orders_path, class: "nav-link #{'active' if controller_name == 'orders'}" %>
+                <%# Added icon to Order History link %>
+                <%= link_to orders_path, class: "nav-link #{'active' if controller_name == 'orders'}" do %>
+                  <i class="bi bi-receipt me-1"></i> Order History
+                <% end %>
               </li>
               <li class="nav-item">
-                <%# Use button_to for DELETE requests with Turbo %>
-                <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-outline-danger btn-sm" %>
+                <%# Added icon to Log Out button %>
+                <%= button_to destroy_user_session_path, method: :delete, class: "btn btn-outline-danger btn-sm" do %>
+                  <i class="bi bi-box-arrow-right me-1"></i> Log Out
+                <% end %>
               </li>
             <% else %>
               <li class="nav-item">
-                <%= link_to "Sign Up", new_user_registration_path, class: "nav-link" %>
+                <%# Added icon to Sign Up link %>
+                <%= link_to new_user_registration_path, class: "nav-link" do %>
+                  <i class="bi bi-person-plus me-1"></i> Sign Up
+                <% end %>
               </li>
               <li class="nav-item">
-                <%= link_to "Log In", new_user_session_path, class: "nav-link" %>
+                <%# Added icon to Log In link %>
+                <%= link_to new_user_session_path, class: "nav-link" do %>
+                  <i class="bi bi-box-arrow-in-right me-1"></i> Log In
+                <% end %>
               </li>
             <% end %>
           </ul>

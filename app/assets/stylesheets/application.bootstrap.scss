@@ -2,15 +2,151 @@
 @use 'bootstrap/scss/bootstrap';
 @use 'bootstrap-icons/font/bootstrap-icons';
 
+/* --- Light Mode Variables (Default) --- */
+:root {
+  --app-bg: #ffffff; /* White background */
+  --app-text-color: #212529; /* Default Bootstrap text */
+  --app-card-bg: #ffffff;
+  --app-card-border: rgba(0, 0, 0, 0.125);
+  --app-card-shadow: rgba(0, 0, 0, 0.1);
+  --app-card-hover-shadow: rgba(0, 0, 0, 0.15);
+
+  --navbar-bg: #f8f9fa; /* Light grey background */
+  --navbar-link-color: #495057; /* Dark grey text */
+  --navbar-link-hover-color: #20c997; /* Teal for hover/active */
+  --navbar-link-hover-bg: #e9ecef; /* Slightly darker grey for hover background */
+  --navbar-shadow: rgba(0, 0, 0, 0.05);
+}
+
+/* --- Dark Mode Variables --- */
+[data-bs-theme="dark"] {
+  --bs-body-bg: #1a1a1a; /* Dark background */
+  --bs-body-color: #e0e0e0; /* Lighter text */
+  --bs-border-color: #444; /* Darker borders */
+
+  --app-bg: var(--bs-body-bg);
+  --app-text-color: var(--bs-body-color);
+  --app-card-bg: #2c2c2c; /* Darker card background */
+  --app-card-border: #555;
+  --app-card-shadow: rgba(255, 255, 255, 0.05);
+  --app-card-hover-shadow: rgba(255, 255, 255, 0.1);
+
+  --navbar-bg: #212529; /* Dark navbar background */
+  --navbar-link-color: #adb5bd; /* Lighter grey text */
+  --navbar-link-hover-color: #20c997; /* Teal still works */
+  --navbar-link-hover-bg: #343a40; /* Darker hover background */
+  --navbar-shadow: rgba(255, 255, 255, 0.05);
+
+  /* Adjust Bootstrap components for dark mode if needed */
+  .dropdown-menu {
+    --bs-dropdown-bg: var(--navbar-bg);
+    --bs-dropdown-link-color: var(--navbar-link-color);
+    --bs-dropdown-link-hover-color: var(--navbar-link-hover-color);
+    --bs-dropdown-link-hover-bg: var(--navbar-link-hover-bg);
+    --bs-dropdown-border-color: #444;
+  }
+
+  .card {
+     background-color: var(--app-card-bg);
+     border-color: var(--app-card-border);
+     box-shadow: 0 2px 5px var(--app-card-shadow);
+  }
+   .card:hover {
+     box-shadow: 0 4px 15px var(--app-card-hover-shadow);
+   }
+
+  .list-group-item {
+    background-color: var(--app-card-bg);
+    border-color: var(--app-card-border);
+  }
+
+  /* Ensure welcome banner text is readable */
+  .bg-dark.text-white {
+     background-color: #000 !important; /* Make it even darker */
+     color: #fff !important;
+  }
+  .bg-dark .btn-outline-light {
+     --bs-btn-color: #fff;
+     --bs-btn-border-color: #fff;
+     --bs-btn-hover-color: #000;
+     --bs-btn-hover-bg: #fff;
+     --bs-btn-hover-border-color: #fff;
+  }
+}
+
+/* --- General Styles (Apply to both modes) --- */
+body {
+  background-color: var(--app-bg);
+  color: var(--app-text-color);
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+}
+
+/* Custom Navbar Styles */
+.custom-navbar {
+  background-color: var(--navbar-bg) !important;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  box-shadow: 0 2px 4px var(--navbar-shadow); /* Use variable */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+.custom-navbar .navbar-brand img {
+  max-height: 40px;
+}
+
+.custom-navbar .nav-link {
+  color: var(--navbar-link-color);
+  font-weight: 500;
+  padding: 0.8rem 1rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  border-radius: 0.25rem;
+  margin: 0 0.25rem;
+}
+
+.custom-navbar .nav-link:hover,
+.custom-navbar .nav-link:focus {
+  color: var(--navbar-link-hover-color);
+  background-color: var(--navbar-link-hover-bg);
+}
+
+.custom-navbar .nav-link.active {
+  color: var(--navbar-link-hover-color);
+  font-weight: 700;
+}
+
+.custom-navbar .dropdown-toggle::after {
+  margin-left: 0.5em;
+}
+
+.custom-navbar .navbar-text {
+  color: var(--navbar-link-color);
+  display: flex;
+  align-items: center;
+}
+
+.custom-navbar .nav-item form.button_to {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.custom-navbar .nav-item .btn {
+   padding: 0.8rem 1rem;
+   margin: 0 0.25rem;
+}
+
+/* Dropdown menu styles are now handled by Bootstrap's dark mode or specific overrides within [data-bs-theme="dark"] */
+
 /* Custom Product Card Styles */
 .card {
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: var(--app-card-bg); /* Use variable */
+  border-color: var(--app-card-border); /* Use variable */
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+  box-shadow: 0 2px 5px var(--app-card-shadow); /* Use variable */
 }
 
 .card:hover {
   transform: scale(1.02);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 15px var(--app-card-hover-shadow); /* Use variable */
 }
 
 .card-img-top {

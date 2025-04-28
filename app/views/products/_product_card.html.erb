@@ -9,11 +9,14 @@
       <h5 class="card-title"><%= link_to product.name, product_path(product) %></h5>
       <p class="card-text flex-grow-1"><%= truncate(product.description, length: 80) %></p> <%# flex-grow-1 pushes footer down %>
       <div class="mt-auto"> <%# Footer div %>
-        <p class="card-text"><strong>Price:</strong> <%= number_to_currency(product.price) %></p>
-        <%= link_to "View Details", product_path(product), class: "btn btn-primary me-2" %>
-        <% if user_signed_in? %>
-          <%= button_to "Add to Cart", product_cart_items_path(product), method: :post, class: "btn btn-success btn-sm d-inline-block" %> <%# d-inline-block for alignment %>
-        <% end %>
+        <p class="card-text mb-2"><strong>Price:</strong> <%= number_to_currency(product.price) %></p> <%# Added mb-2 for spacing %>
+        <%# Wrap buttons in a flex container for horizontal layout %>
+        <div class="d-flex justify-content-start align-items-center">
+          <%= link_to "View Details", product_path(product), class: "btn btn-primary btn-sm me-2" %> <%# Made button small (btn-sm) %>
+          <% if user_signed_in? %>
+            <%= button_to "Add to Cart", product_cart_items_path(product), method: :post, class: "btn btn-success btn-sm" %> <%# Removed d-inline-block, btn-sm added %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
