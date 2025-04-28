@@ -2,7 +2,7 @@
 
 The Rails router, defined primarily in `config/routes.rb`, is responsible for recognizing incoming request URLs and dispatching them to the appropriate controller action. It acts as the entry point for most web requests.
 
-**Key Concepts:**
+## Key Concepts:
 
 1.  **Mapping URLs to Controllers:** The router defines rules that map specific URL patterns and HTTP methods (GET, POST, PUT, PATCH, DELETE) to a controller and action pair.
 2.  **RESTful Routes:** Rails encourages a RESTful approach to routing. The `resources` helper is a powerful way to automatically generate the standard set of routes for a resource (like products or categories). For example, `resources :products` creates routes for:
@@ -22,7 +22,7 @@ The Rails router, defined primarily in `config/routes.rb`, is responsible for re
 5.  **Namespaces:** The `namespace` helper allows grouping related routes under a common path segment and module. This is often used for admin sections.
 6.  **Nested Resources:** Routes can be nested to represent relationships. For example, adding cart items is often nested under products.
 
-**Routing in this Project (`config/routes.rb`):**
+## Routing in this Project (`config/routes.rb`):
 
 Let's examine the key parts of this project's `config/routes.rb`:
 
@@ -38,7 +38,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
 
   # Public facing resources
-  resources :products, only: [:index, :show] do
+  resources :products, only: [:index, :show, :new, :create] do
     resources :cart_items, only: [:create] # Nested: POST /products/:product_id/cart_items
     resources :comments, only: [:create]   # Nested: POST /products/:product_id/comments
   end
@@ -46,24 +46,35 @@ Rails.application.routes.draw do
   resource :cart, only: [:show] do # Singular resource for the current user's cart
     resources :cart_items, only: [:update, :destroy] # Nested: PATCH/DELETE /cart/cart_items/:id
   end
+  resources :orders, only: [:create, :index, :show] # Routes for checkout and user order history
 
   # Admin section
   namespace :admin do
     root to: 'dashboard#index' # /admin
-    resources :products # Full CRUD for products under /admin/products
-    # Add routes for admin category/user/order management here later
+    resources :products do 
+      collection do 
+        get :pending_submissions
+      end
+      member do
+        patch :accept_submission
+        patch :reject_submission
+      end
+    end# Full CRUD for products under /admin/products
+    resources :categories # Add routes for admin category management
+    resources :users, only: [:index, :show, :destroy] # Add routes for admin user management
+    resources :orders, only: [:index, :show] # Add routes for admin order viewing
   end
 
   # ... other routes like health checks ...
 end
 ```
 
-**Breakdown:**
+## Breakdown:
 
 *   `devise_for :users`: Sets up all the necessary routes for user sign-up, login, logout, password recovery, etc., provided by the Devise gem.
 *   `authenticated :user, ->(user) { user.admin? } do ... end`: Defines a special root path (`/admin`) for users who are logged in *and* are admins.
 *   `root to: 'home#index'`: Sets the default root path (`/`) for non-admin users (or logged-out users) to the `index` action of the `HomeController`.
-*   `resources :products, only: [:index, :show] do ... end`: Creates the public routes for viewing all products (`/products`) and a single product (`/products/:id`). It also nests routes within it:
+*   `resources :products, only: [:index, :show, :new, :create] do ... end`: Creates the public routes for viewing all products (`/products`) and a single product (`/products/:id`). It also nests routes within it:
     *   `resources :cart_items, only: [:create]`: Creates `POST /products/:product_id/cart_items` mapped to `cart_items#create`.
     *   `resources :comments, only: [:create]`: Creates `POST /products/:product_id/comments` mapped to `comments#create`.
 *   `resources :categories, only: [:show]`: Creates the route `GET /categories/:id` for viewing products by category.
@@ -79,7 +90,9 @@ end
     *   `resources :categories`: Full CRUD routes for admin category management (`/admin/categories`).
     *   `resources :users, only: [:index, :show, :destroy]`: Routes for admin user management (`/admin/users`).
     *   `resources :orders, only: [:index, :show]`: Routes for admin viewing of all orders (`/admin/orders`).
+    *   `pending_submissions_admin_products_path`: Route for viewing pending product submissions (`/admin/products/pending_submissions`).
+    *   `accept_submission_admin_product_path` and `reject_submission_admin_product_path`: Routes for accepting or rejecting product submissions.
 
-**How to Check Routes:**
+## How to Check Routes:
 
 You can run `bin/rails routes` in your terminal to see a complete list of all routes defined for your application, including the HTTP method, URL pattern, controller#action mapping, and path helper names.
