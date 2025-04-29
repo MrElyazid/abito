@@ -9,7 +9,7 @@
     <% end %>
   </div>
 
-  <div class="row">
+  <div class="row justify-content-center">
     <% if @products.any? %>
       <% @products.each do |product| %>
         <%= render 'products/product_card', product: product %>

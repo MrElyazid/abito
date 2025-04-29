@@ -1,24 +1,99 @@
-<%# Welcome Banner - Enhanced %>
-<div class="p-5 mb-4 bg-dark text-white rounded-3"> <%# Changed background, added text-white %>
+<%# Welcome Banner - Redesigned with gradient background and improved typography %>
+<div class="position-relative overflow-hidden p-5 mb-5 text-white rounded-3"
+     style="background: linear-gradient(135deg, #13547a 0%, #80d0c7 100%);">
   <div class="container-fluid py-5">
-    <h1 class="display-5 fw-bold">Welcome to Abito!</h1>
-    <p class="col-md-8 fs-4">Your one-stop shop for the best products online. Browse our categories or check out our featured items below.</p>
-    <%= link_to "Browse All Products", products_path, class: "btn btn-outline-light btn-lg" %> <%# Changed button style %>
+    <div class="row">
+      <div class="col-md-8">
+        <h1 class="display-4 fw-bold" style="font-family: 'Playfair Display', serif;">Discover Your Style at Abito</h1>
+        <p class="lead my-4" style="font-size: 1.4rem; font-weight: 300;">
+          Welcome to our curated collection of premium products. Find exactly what you're looking for with our easy-to-browse categories and personalized recommendations.
+        </p>
+        <div class="d-flex gap-3 mt-4">
+          <%= link_to products_path, class: "btn btn-light btn-lg px-4" do %>
+            <i class="bi bi-search me-2"></i> Explore Collection
+          <% end %>
+          <% if !user_signed_in? %>
+            <%= link_to new_user_registration_path, class: "btn btn-outline-light btn-lg px-4" do %>
+              <i class="bi bi-person-plus me-2"></i> Join Abito
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-md-4 d-none d-md-flex align-items-center justify-content-center">
+        <div class="text-center">
+          <i class="bi bi-bag-heart" style="font-size: 8rem; opacity: 0.8;"></i>
+          <p class="mt-3 fs-5 fw-light">Quality Products, Happy Customers</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="product-shape"></div>
+</div>
+
+<%# Why Choose Us Section - New addition %>
+<div class="container my-5 py-4">
+  <h2 class="display-6 mb-4 text-center">Why Shop With Us</h2>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-4">
+          <i class="bi bi-truck text-primary mb-3" style="font-size: 2.5rem;"></i>
+          <h3 class="h4 card-title">Fast Delivery</h3>
+          <p class="card-text text-muted">Get your products delivered to your doorstep quickly and reliably.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-4">
+          <i class="bi bi-shield-check text-primary mb-3" style="font-size: 2.5rem;"></i>
+          <h3 class="h4 card-title">Quality Guarantee</h3>
+          <p class="card-text text-muted">All our products are carefully selected to ensure the highest quality.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm">
+        <div class="card-body text-center p-4">
+          <i class="bi bi-arrow-counterclockwise text-primary mb-3" style="font-size: 2.5rem;"></i>
+          <h3 class="h4 card-title">Easy Returns</h3>
+          <p class="card-text text-muted">Not satisfied? Return your purchase within 30 days for a full refund.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <%# Shop By Category Section %>
 <% if @categories_for_home.any? %>
-<div class="container my-5"> <%# Add vertical margin %>
-  <h2 class="display-6 mb-3 text-center">Shop by Category</h2>
-  <div class="row justify-content-center">
+<div class="container my-5 py-3">
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <h2 class="display-6">Shop by Category</h2>
+      <p class="text-muted lead">Find exactly what you're looking for by browsing our curated categories</p>
+    </div>
+  </div>
+  <div class="row justify-content-center g-4">
     <% @categories_for_home.each do |category| %>
-      <div class="col-md-3 col-sm-6 mb-4">
-        <div class="card text-center h-100"> <%# Apply card styles from CSS %>
-          <div class="card-body d-flex flex-column justify-content-center">
-            <%# Placeholder for category image/icon if added later %>
-            <i class="bi bi-tag fs-1 mb-2"></i> <%# Example using Bootstrap Icons %>
-            <h5 class="card-title"><%= link_to category.name, category_path(category), class: "stretched-link text-decoration-none" %></h5>
+      <div class="col-md-3 col-sm-6">
+        <div class="card text-center h-100 border-0 shadow-sm transition-card">
+          <div class="card-body d-flex flex-column justify-content-center p-4">
+            <%
+              # Assign different icons based on category name
+              icon_class = case category.name.downcase
+                when /electron/i then "bi-laptop"
+                when /cloth/i then "bi-bag"
+                when /book/i then "bi-book"
+                when /food/i then "bi-cup-hot"
+                when /home/i then "bi-house-heart"
+                else "bi-tag"
+              end
+            %>
+            <div class="category-icon-wrapper mb-3">
+              <i class="bi <%= icon_class %> fs-1"></i>
+            </div>
+            <h5 class="card-title mb-3"><%= link_to category.name, category_path(category), class: "stretched-link text-decoration-none" %></h5>
+            <p class="card-text small text-muted">Explore our <%= category.name.downcase %> collection</p>
           </div>
         </div>
       </div>
@@ -26,17 +101,103 @@
   </div>
 </div>
 <% end %>
-<%# Featured Products Section %>
-<div class="container">
-  <h2 class="display-6 mb-3">Featured Products</h2> <%# Added display class and margin %>
-  <%# Removed <hr> for cleaner look, spacing handled by mb-3 %>
+<%# Featured Products Section - Enhanced %>
+<div class="container my-5 py-3">
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h2 class="display-6">Featured Products</h2>
+      <p class="text-muted lead">Handpicked by our team, these products are trending right now</p>
+    </div>
+    <div class="col-md-4 text-md-end align-self-center">
+      <%= link_to products_path, class: "btn btn-outline-primary" do %>
+        View All Products <i class="bi bi-arrow-right ms-2"></i>
+      <% end %>
+    </div>
+  </div>
+  
   <% if @featured_products.any? %>
-    <div class="row">
+    <div class="row g-4 justify-content-center">
       <% @featured_products.each do |product| %>
         <%= render 'products/product_card', product: product %>
       <% end %>
     </div>
   <% else %>
-    <p>No featured products available at the moment.</p>
+    <div class="alert alert-info">
+      <i class="bi bi-info-circle me-2"></i> No featured products available at the moment.
+    </div>
   <% end %>
+</div>
+
+<%# Testimonials Section - New addition %>
+<div class="container-fluid py-5 my-5 bg-light">
+  <div class="container">
+    <h2 class="display-6 text-center mb-5">What Our Customers Say</h2>
+    <div class="row justify-content-center">
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex mb-3">
+              <% 5.times do %>
+                <i class="bi bi-star-fill text-warning me-1"></i>
+              <% end %>
+            </div>
+            <p class="card-text mb-3">"I love shopping at Abito! The products are high quality and the customer service is excellent. Will definitely be a returning customer."</p>
+            <div class="d-flex align-items-center">
+              <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                <span class="fw-bold">JD</span>
+              </div>
+              <div>
+                <h6 class="mb-0">Jane Doe</h6>
+                <small class="text-muted">Loyal Customer</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex mb-3">
+              <% 5.times do %>
+                <i class="bi bi-star-fill text-warning me-1"></i>
+              <% end %>
+            </div>
+            <p class="card-text mb-3">"Fast shipping and the product quality exceeded my expectations. The website is also very easy to navigate. Highly recommended!"</p>
+            <div class="d-flex align-items-center">
+              <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                <span class="fw-bold">JS</span>
+              </div>
+              <div>
+                <h6 class="mb-0">John Smith</h6>
+                <small class="text-muted">New Customer</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# Newsletter Section - New addition %>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm">
+        <div class="card-body p-5 text-center">
+          <h3 class="mb-3">Stay Updated</h3>
+          <p class="text-muted mb-4">Subscribe to our newsletter to receive updates on new products, special offers, and more.</p>
+          <div class="row justify-content-center">
+            <div class="col-md-8">
+              <div class="input-group mb-3">
+                <input type="email" class="form-control" placeholder="Your email address" aria-label="Email address">
+                <button class="btn btn-primary" type="button">Subscribe</button>
+              </div>
+              <small class="text-muted">We respect your privacy and will never share your information.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

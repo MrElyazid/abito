@@ -156,6 +156,26 @@ body {
   /* height: 200px; */
 }
 
+/* Medium-sized product card styles */
+.product-card-medium {
+  font-size: 0.9rem;
+}
+
+.product-card-medium .card-img-top {
+  height: 150px;
+  object-fit: cover;
+}
+
+.product-card-medium .card-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Ensure consistent card width */
+.product-card-container {
+  max-width: 300px;
+}
+
 /* Optional: Refine button styles within cards */
 /*
 .card .btn-primary {
@@ -163,3 +183,97 @@ body {
   // @extend .btn-outline-primary;
 }
 */
+
+/* Dark Mode Toggle Button Styles */
+#darkModeToggle,
+#dark-mode-toggle-admin {
+  width: 40px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+#darkModeToggle i,
+#dark-mode-toggle-admin i {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+#darkModeToggle:hover,
+#dark-mode-toggle-admin:hover {
+  transform: scale(1.05);
+}
+
+/* Homepage specific styles */
+
+/* Gradient animation for the welcome banner */
+.product-shape {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Category icon wrapper */
+.category-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: rgba(var(--bs-primary-rgb), 0.1);
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+/* Card hover effects */
+.transition-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.transition-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.transition-card:hover .category-icon-wrapper {
+  background-color: rgba(var(--bs-primary-rgb), 0.2);
+  transform: scale(1.1);
+}
+
+/* Custom font for the hero heading */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+/* Testimonial cards */
+.card .bi-star-fill {
+  font-size: 0.9rem;
+}
+
+/* Dark mode adjustments for new components */
+[data-bs-theme="dark"] {
+  .category-icon-wrapper {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .transition-card:hover .category-icon-wrapper {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .bg-light {
+    background-color: var(--bs-dark) !important;
+  }
+  
+  .card.border-0.shadow-sm {
+    background-color: var(--app-card-bg);
+    box-shadow: 0 0.5rem 1rem rgba(255, 255, 255, 0.05) !important;
+  }
+}

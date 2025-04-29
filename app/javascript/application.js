@@ -5,23 +5,30 @@ import * as bootstrap from "bootstrap"
 
 // Dark Mode Toggle Logic
 document.addEventListener('turbo:load', () => {
-  const toggleButton = document.getElementById('darkModeToggle');
+  const toggleButtons = {
+    main: document.getElementById('darkModeToggle'),
+    admin: document.getElementById('dark-mode-toggle-admin')
+  };
   const htmlElement = document.documentElement; // Target the <html> element
-  const moonIconClass = 'bi-moon-stars-fill';
-  const sunIconClass = 'bi-sun-fill';
+  const moonIconClass = 'bi bi-moon-stars-fill';
+  const sunIconClass = 'bi bi-sun-fill';
 
   // Function to apply the theme
   const applyTheme = (theme) => {
     if (theme === 'dark') {
       htmlElement.setAttribute('data-bs-theme', 'dark');
-      if (toggleButton) {
-        toggleButton.innerHTML = `<i class="bi ${sunIconClass}"></i>`; // Show sun icon in dark mode
-      }
+      Object.values(toggleButtons).forEach(button => {
+        if (button) {
+          button.innerHTML = `<i class="${sunIconClass}"></i>`; // Show sun icon in dark mode
+        }
+      });
     } else {
       htmlElement.removeAttribute('data-bs-theme');
-      if (toggleButton) {
-        toggleButton.innerHTML = `<i class="bi ${moonIconClass}"></i>`; // Show moon icon in light mode
-      }
+      Object.values(toggleButtons).forEach(button => {
+        if (button) {
+          button.innerHTML = `<i class="${moonIconClass}"></i>`; // Show moon icon in light mode
+        }
+      });
     }
   };
 
@@ -41,10 +48,12 @@ document.addEventListener('turbo:load', () => {
   // Apply the initial theme
   applyTheme(initialTheme);
 
-  // Add event listener to the button
-  if (toggleButton) {
-    toggleButton.addEventListener('click', toggleTheme);
-  }
+  // Add event listener to the buttons
+  Object.values(toggleButtons).forEach(button => {
+    if (button) {
+      button.addEventListener('click', toggleTheme);
+    }
+  });
 
   // Optional: Listen for system preference changes
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {

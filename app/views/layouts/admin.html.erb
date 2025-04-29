@@ -19,7 +19,9 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> <%# Dark theme for admin %>
       <div class="container-fluid">
-        <%= link_to "Abito Admin", admin_root_path, class: "navbar-brand" %> <%# Link to admin root later %>
+        <%= link_to admin_root_path, class: "navbar-brand" do %>
+          <%= image_tag("Abito-logo.jpg", alt: "Abito Admin", height: "40") %>
+        <% end %>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNavbarNav" aria-controls="adminNavbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -27,30 +29,52 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <%# Add Admin specific links here later - e.g., Products, Orders, Users %>
             <li class="nav-item">
-              <%= link_to "Dashboard", admin_root_path, class: "nav-link" %> <%# Link to admin root later %>
-            </li>
-             <li class="nav-item">
-              <%= link_to "Products", admin_products_path, class: "nav-link #{'active' if controller_name == 'products'}" %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "Categories", admin_categories_path, class: "nav-link #{'active' if controller_name == 'categories'}" %>
+              <%= link_to admin_root_path, class: "nav-link" do %>
+                <i class="bi bi-speedometer2 me-1"></i> Dashboard
+              <% end %>
             </li>
             <li class="nav-item">
-              <%= link_to "Users", admin_users_path, class: "nav-link #{'active' if controller_name == 'users'}" %>
+              <%= link_to admin_products_path, class: "nav-link #{'active' if controller_name == 'products'}" do %>
+                <i class="bi bi-box-seam me-1"></i> Products
+              <% end %>
             </li>
             <li class="nav-item">
-              <%= link_to "Orders", admin_orders_path, class: "nav-link #{'active' if controller_name == 'orders'}" %>
+              <%= link_to pending_submissions_admin_products_path, class: "nav-link #{'active' if controller_name == 'products' && action_name == 'pending_submissions'}" do %>
+                <i class="bi bi-hourglass-split me-1"></i> Pending Submissions
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to admin_categories_path, class: "nav-link #{'active' if controller_name == 'categories'}" do %>
+                <i class="bi bi-tags me-1"></i> Categories
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to admin_users_path, class: "nav-link #{'active' if controller_name == 'users'}" do %>
+                <i class="bi bi-people me-1"></i> Users
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= link_to admin_orders_path, class: "nav-link #{'active' if controller_name == 'orders'}" do %>
+                <i class="bi bi-receipt me-1"></i> Orders
+              <% end %>
             </li>
           </ul>
           <ul class="navbar-nav">
             <% if user_signed_in? %>
               <li class="nav-item">
                 <span class="navbar-text text-light me-3"> <%# Light text for dark navbar %>
-                  Admin: <%= current_user.email %>
+                  <i class="bi bi-person-badge me-1"></i> Admin: <%= current_user.email %>
                 </span>
               </li>
               <li class="nav-item">
-                <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" %> <%# Light outline %>
+                <%= button_to destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" do %>
+                  <i class="bi bi-box-arrow-right me-1"></i> Log Out
+                <% end %>
+              </li>
+              <li class="nav-item me-2">
+                <button id="dark-mode-toggle-admin" class="btn btn-outline-light btn-sm" type="button" title="Toggle dark mode">
+                  <i id="dark-mode-icon-admin" class="bi bi-moon-stars-fill"></i>
+                </button>
               </li>
             <% end %>
             <%# No need for Sign Up/Log In links here %>
